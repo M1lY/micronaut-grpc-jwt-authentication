@@ -1,0 +1,8 @@
+micronaut:
+  application:
+    name: micronautGrpcTest
+grpc:
+  server:
+    port: 8081
+jwt:
+    secret: "CHANGE-IT"

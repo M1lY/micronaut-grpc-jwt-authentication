@@ -1,0 +1,79 @@
+buildscript {
+    ext {
+        protocVesion = '3.21.12'
+        protobufPluginVersion = '0.8.18';
+        grpcVerion = '1.54.0'
+        reactiveGrpcVerion = '1.2.4'
+    }
+}
+
+plugins {
+    id("com.github.johnrengelman.shadow") version "7.1.2"
+    id("io.micronaut.application") version "3.7.10"
+    id("com.google.protobuf") version "${protobufPluginVersion}"
+}
+
+version = "0.1"
+group = "com.example"
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    //MICRONAUT
+    implementation("io.micronaut:micronaut-jackson-databind")
+    implementation("jakarta.annotation:jakarta.annotation-api")
+    testImplementation("io.micronaut:micronaut-http-client")
+
+    //GRPC
+    implementation("io.micronaut.grpc:micronaut-grpc-runtime")
+    implementation("com.salesforce.servicelibs:reactor-grpc-stub:${reactiveGrpcVerion}")
+    implementation("io.micronaut.reactor:micronaut-reactor")
+
+    //TOOLS
+    runtimeOnly("ch.qos.logback:logback-classic")
+    implementation("com.auth0:java-jwt:4.4.0")
+}
+
+application {
+    mainClass.set("com.example.Application")
+}
+java {
+    sourceCompatibility = JavaVersion.toVersion("17")
+    targetCompatibility = JavaVersion.toVersion("17")
+}
+
+sourceSets {
+    main {
+        java {
+            srcDirs("build/generated/source/proto/main/grpc")
+            srcDirs("build/generated/source/proto/main/java")
+            srcDirs("build/generated/source/proto/main/reactor")
+        }
+    }
+}
+
+protobuf {
+    protoc { artifact = "com.google.protobuf:protoc:${protocVesion}" }
+    plugins {
+        grpc { artifact = "io.grpc:protoc-gen-grpc-java:${grpcVerion}" }
+        reactiveGrpc { artifact = "com.salesforce.servicelibs:reactor-grpc:${reactiveGrpcVerion}" }
+    }
+    generateProtoTasks {
+        all()*.plugins {
+            grpc {}
+            reactiveGrpc {}
+        }
+    }
+}
+micronaut {
+    testRuntime("junit5")
+    processing {
+        incremental(true)
+        annotations("com.example.*")
+    }
+}
+
+
+

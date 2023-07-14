@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "com.example";
+option java_outer_classname = "Manager";
+option objc_class_prefix = "HLW";
+
+package com.example;
+
+service ManagerService {
+  rpc manager (ManagerPing) returns (ManagerPing) {}
+  rpc test (ManagerPing) returns (ManagerPing) {}
+}
+
+message ManagerPing {
+  string msg = 1;
+}
