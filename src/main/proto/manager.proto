@@ -9,7 +9,6 @@ package com.example;
 
 service ManagerService {
   rpc manager (ManagerPing) returns (ManagerPing) {}
-  rpc test (ManagerPing) returns (ManagerPing) {}
 }
 
 message ManagerPing {

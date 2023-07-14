@@ -35,7 +35,6 @@ public class JwtServerInterceptor implements ServerInterceptor {
     appendAccessibleRoles(Manager.getDescriptor(), "ManagerService", "manager", List.of(Role.ROLE_MANAGER));
     appendAccessibleRoles(Lab.getDescriptor(), "LabService", "lab", List.of(Role.ROLE_LAB));
     appendAccessibleRoles(Stockman.getDescriptor(), "StockmanService", "stockman", List.of(Role.ROLE_STOCKMAN));
-    System.out.println(this.accessibleRoles);
   }
 
   private void appendAccessibleRoles(FileDescriptor fileDescriptor, String serviceRegex,
